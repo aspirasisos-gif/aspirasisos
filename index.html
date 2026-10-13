@@ -12,10 +12,17 @@
   .header { text-align: center; margin-bottom: 2rem; }
   .header h2 { font-size: 2.2rem; margin-bottom: 0.5rem; color: #0f172a; font-weight: 800; }
   .slogan { color: #64748b; font-style: italic; font-size: 1.05rem; }
-  .btn { display: block; width: 100%; padding: 1rem; border-radius: 12px; font-weight: bold; font-size: 1.1rem; border: none; cursor: pointer; text-align: center; color: white; text-decoration: none; margin-bottom: 1rem; transition: 0.2s; }
+  
+  .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.9rem 1rem; border-radius: 12px; font-weight: bold; font-size: 0.95rem; border: none; cursor: pointer; text-align: center; color: white; text-decoration: none; transition: 0.2s; box-sizing: border-box; }
   .btn-primary { background: var(--primary); }
   .btn-primary:hover { background: #4338ca; }
   .btn-danger { background: var(--danger); }
+  .btn-danger:hover { background: #dc2626; }
+  
+  /* KELOMPOK TOMBOL SEJAJAR */
+  .btn-group { display: flex; gap: 1rem; margin-bottom: 1.5rem; width: 100%; }
+  .btn-group .btn { flex: 1; width: 50%; }
+
   input, select, textarea { width: 100%; padding: 0.8rem; margin-top: 0.5rem; margin-bottom: 1rem; border: 2px solid var(--border); border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
   input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); }
   .hidden { display: none; }
@@ -33,8 +40,9 @@
       <p class="slogan">"Karena suara siswa adalah milik bersama dan layak didengar."</p>
     </div>
     
+    <!-- TOMBOL SEJAJAR BERDAMPINGAN -->
     <div class="btn-group">
-      <button class="btn btn-primary" onclick="showVerifikasi()">✍️ Aspirasi/Keluhan </button>
+      <button class="btn btn-primary" onclick="showVerifikasi()">✍️ Aspirasi/Pengaduan</button>
       <a href="https://wa.me/6281234567890?text=Halo%20Bapak/Ibu%20Guru%20BK,%20saya%20butuh%20bantuan%20darurat." class="btn btn-danger" target="_blank">🚨 Saluran Darurat (WhatsApp)</a>
     </div>
 
@@ -110,7 +118,6 @@
         <strong id="kodeFinal" style="font-size: 2.5rem; color: var(--primary); font-family: monospace; letter-spacing: 4px;"></strong>
       </div>
 
-      <!-- PERINGATAN PENTING UNTUK MENGINGAT KODE -->
       <div style="background: #fef3c7; border: 2px dashed #f59e0b; padding: 1.2rem; border-radius: 12px; margin-bottom: 1.5rem; text-align: left;">
         <h4 style="color: #b45309; margin-bottom: 0.4rem;">⚠️ PERINGATAN PENTING:</h4>
         <p style="font-size: 0.9rem; color: #78350f; margin: 0;">
@@ -125,7 +132,7 @@
 </div>
 
 <script>
-  var URL_APP = "https://script.google.com/macros/s/AKfycbxkmPrNc25Py28UOt9AFF_oZaCm_0CPtaoIjmXWv7C9N4pUNAQ68C04o3YkunE3Boen/exec"; 
+  var URL_APP = "https://script.google.com/macros/s/AKfycbyGHNRalbbM1ZKKpz5ufeC8lho8F9tf0Gv-azGdASoS2HT_MmcMU4bF9deXNia2WGs5/exec"; 
 
   function buatKode() { 
     var cs = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", out = "";
