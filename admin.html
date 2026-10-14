@@ -3,98 +3,216 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Admin Dashboard - Aspirasisos</title>
+<title>Admin Dashboard</title>
 <style>
-  body { font-family: system-ui, sans-serif; background: #f1f5f9; padding: 1.5rem; margin: 0; color: #1e293b; }
-  .container { max-width: 950px; margin: 0 auto; background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-  h2 { margin-top: 0; color: #4f46e5; border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem; }
-  table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; font-size: 0.95rem; }
-  th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
-  th { background: #f8fafc; color: #475569; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+  :root {
+    --bg-app: #f1f5f9; --surface: #ffffff; --primary: #4f46e5; --primary-hover: #4338ca;
+    --text-main: #1e293b; --text-muted: #64748b; --border: #e2e8f0; --success: #166534;
+  }
+  body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg-app); padding: 1rem; margin: 0; color: var(--text-main); }
+  .container { max-width: 1200px; margin: 0 auto; background: var(--surface); padding: 1.5rem; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+  .header-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-bottom: 2px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+  h2 { margin: 0; color: var(--primary); font-size: 1.5rem; }
+  
+  /* Tabel Responsif dalam 1 Layar */
+  .table-container { width: 100%; overflow-x: auto; max-height: 70vh; border: 1px solid var(--border); border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; white-space: nowrap; }
+  th, td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  th { background: #f8fafc; color: #475569; font-weight: 700; position: sticky; top: 0; z-index: 10; }
   tr:hover { background: #f8fafc; }
-  .badge { padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+
+  /* Input & Elemen Interaktif */
+  input, select, textarea { width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+  
+  .btn { padding: 0.6rem 1.2rem; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: background 0.2s; color: white; display: inline-flex; align-items: center; gap: 0.4rem; }
+  .btn-primary { background: var(--primary); }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-success { background: #10b981; }
+  .btn-success:hover { background: #059669; }
+  
+  .badge { padding: 0.3rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
   .badge.diterima { background: #fee2e2; color: #dc2626; }
   .badge.diproses { background: #fef08a; color: #854d0e; }
   .badge.selesai { background: #dcfce7; color: #166534; }
-  input, button { padding: 0.8rem; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 1rem; }
-  button { background: #4f46e5; color: white; border: none; cursor: pointer; font-weight: bold; }
-  button:hover { background: #4338ca; }
+  
+  .thumb-img { width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); background: #eee; }
+  
+  /* Modal Login */
+  #loginArea { max-width: 400px; margin: 4rem auto; text-align: center; padding: 2rem; background: white; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
 </style>
 </head>
 <body>
+
 <div class="container">
-  <h2>🛡️ Dashboard Admin Aspirasisos</h2>
   
-  <!-- Kotak Login Admin -->
-  <div id="loginArea" style="text-align: center; padding: 3rem 0;">
-    <p>Masukkan Kata Sandi Administrator:</p>
-    <input type="password" id="pass" placeholder="Password: admin123" style="text-align: center; margin-bottom: 1rem;"><br>
-    <button onclick="loadData()">Masuk ke Dashboard</button>
+  <!-- KOTAK LOGIN (Bisa Tekan Enter) -->
+  <div id="loginArea">
+    <h2>🛡️ Admin Login</h2>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Masukkan password untuk mengelola aspirasi.</p>
+    <input type="password" id="passInput" placeholder="Password: admin123" onkeypress="checkEnter(event)" style="text-align: center; margin-bottom: 1rem;">
+    <button type="button" class="btn btn-primary" onclick="loadAdminData()" style="width: 100%; justify-content: center;">Masuk ke Dashboard</button>
   </div>
-  
-  <!-- Area Konten Dashboard (Tersembunyi sebelum login sukses) -->
+
+  <!-- AREA DASHBOARD UTAMA (Tersembunyi sebelum login) -->
   <div id="dataArea" style="display: none;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-      <p style="margin: 0; color: #64748b;">Kelola dan pantau seluruh aspirasi siswa secara real-time.</p>
-      <a href="https://docs.google.com/spreadsheets" target="_blank" style="background: #10b981; color: white; padding: 0.6rem 1.5rem; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 0.9rem;">Buka Google Sheets (Edit Status)</a>
+    <div class="header-flex">
+      <div>
+        <h2>🛡️ Dashboard Admin</h2>
+        <p style="margin: 0.2rem 0 0 0; color: var(--text-muted); font-size: 0.85rem;">Edit status, progres, dan ganti foto bukti langsung dari halaman ini.</p>
+      </div>
+      <button type="button" class="btn btn-success" onclick="loadAdminData()">🔄 Refresh Data</button>
     </div>
-    
-    <table>
-      <thead>
-        <tr>
-          <th>Kode Tiket</th>
-          <th>Kategori</th>
-          <th>Judul Laporan</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="tabelBody">
-        <tr><td colspan="4" style="text-align: center;">Memuat data...</td></tr>
-      </tbody>
-    </table>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Kode</th>
+            <th>Kategori & Judul</th>
+            <th>Lokasi</th>
+            <th>Status</th>
+            <th>Progress / Hasil</th>
+            <th>Foto Bukti (Admin / Baru)</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tabelAdminBody">
+          <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Memuat data database...</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
 </div>
 
 <script>
-  // URL Web App Google Apps Script Anda
-  var URL_APP = "https://script.google.com/macros/s/AKfycbx5v9CLlm-xKTXqUfaKAzElTb8gqoch6ZBVRclKJdV1RqGRDpPkE-wIw75rW2cFxK0A/exec";
+  // ⚠️ PASTIKAN URL_APP SESUAI DENGAN WEB APP ANDA
+  var URL_APP = "https://script.google.com/macros/s/AKfycby93L61MkQUNt80C1LPxJo186rGllbykPuM0cmqGqTxjyp_fbx3s7lMvpDL4lQLzoh5/exec";
 
-  function loadData() {
-    var pass = document.getElementById('pass').value;
-    if (!pass) { alert("Masukkan kata sandi terlebih dahulu!"); return; }
+  // Fitur Login dengan Tombol Enter
+  function checkEnter(e) {
+    if (e.key === "Enter") {
+      loadAdminData();
+    }
+  }
 
-    fetch(URL_APP + "?action=admin&pass=" + encodeURIComponent(pass))
+  function loadAdminData() {
+    var pass = document.getElementById('passInput').value.trim();
+    if (!pass) { alert("Masukkan password terlebih dahulu!"); return; }
+
+    fetch(URL_APP + "?action=admin_komplit&pass=" + encodeURIComponent(pass))
     .then(r => r.json())
     .then(d => {
       if(d.status === "success") {
         document.getElementById('loginArea').style.display = "none";
         document.getElementById('dataArea').style.display = "block";
-        
-        var html = "";
-        if (d.data.length === 0) {
-          html = `<tr><td colspan="4" style="text-align: center; color: #64748b;">Belum ada laporan masuk.</td></tr>`;
-        } else {
-          d.data.forEach(item => {
-            var badgeClass = "diterima";
-            var statusStr = String(item.status || "").toLowerCase();
-            if (statusStr.includes("proses")) badgeClass = "diproses";
-            if (statusStr.includes("selesai")) badgeClass = "selesai";
-
-            html += `<tr>
-              <td><b style="font-family: monospace; color: #4f46e5;">${item.kode}</b></td>
-              <td>${item.kategori}</td>
-              <td>${item.judul}</td>
-              <td><span class="badge ${badgeClass}">${item.status}</span></td>
-            </tr>`;
-          });
-        }
-        document.getElementById('tabelBody').innerHTML = html;
+        renderTabel(d.data, pass);
       } else {
-        alert("❌ Kata sandi salah! Gunakan sandi yang benar.");
+        alert("❌ Kata sandi salah!");
       }
     })
     .catch(e => {
-      alert("Gagal terhubung ke database server.");
+      alert("Gagal terhubung ke server database.");
+    });
+  }
+
+  function renderTabel(dataList, password) {
+    var tbody = document.getElementById('tabelAdminBody');
+    if (dataList.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Belum ada laporan masuk.</td></tr>`;
+      return;
+    }
+
+    var html = "";
+    dataList.forEach((item, index) => {
+      var badgeClass = "diterima";
+      var st = String(item.status || "").toLowerCase();
+      if(st.includes("proses")) badgeClass = "diproses";
+      if(st.includes("selesai")) badgeClass = "selesai";
+
+      var fotoPreview = item.foto && item.foto !== "-" ? `<a href="${item.foto}" target="_blank"><img src="${item.foto}" class="thumb-img" title="Klik untuk memperbesar"></a>` : `<span style="font-size:0.8rem; color:#94a3b8;">Tanpa Foto</span>`;
+
+      html += `
+        <tr data-kode="${item.kode}">
+          <td><b style="font-family: monospace; color: var(--primary);">${item.kode}</b></td>
+          <td>
+            <strong style="font-size:0.85rem; color:#475569;">${item.kategori}</strong><br>
+            <span>${item.judul}</span>
+          </td>
+          <td style="font-size:0.85rem; color:#64748b;">${item.lokasi || '-'}</td>
+          <td>
+            <select id="status_${index}" style="padding: 0.4rem; font-weight: bold;">
+              <option value="Diterima" ${item.status === 'Diterima' ? 'selected' : ''}>Diterima</option>
+              <option value="Diproses" ${item.status === 'Diproses' ? 'selected' : ''}>Diproses</option>
+              <option value="Selesai" ${item.status === 'Selesai' ? 'selected' : ''}>Selesai</option>
+            </select>
+          </td>
+          <td>
+            <input type="text" id="progress_${index}" value="${item.progress || ''}" placeholder="Tulis progress..." style="min-width: 180px;">
+          </td>
+          <td>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              ${fotoPreview}
+              <input type="file" id="file_${index}" accept="image/*" style="font-size: 0.75rem; padding: 2px; width: 140px;">
+            </div>
+          </td>
+          <td>
+            <button type="button" class="btn btn-primary" style="padding: 0.5rem 0.8rem; font-size: 0.82rem;" onclick="simpanPerubahan('${item.kode}', ${index}, '${password}')">💾 Simpan</button>
+          </td>
+        </tr>
+      `;
+    });
+    tbody.innerHTML = html;
+  }
+
+  function simpanPerubahan(kodeTiket, index, password) {
+    var status Baru = document.getElementById(`status_${index}`).value;
+    var progressBaru = document.getElementById(`progress_${index}`).value.trim();
+    var fileInput = document.getElementById(`file_${index}`);
+
+    var btnTarget = event.target;
+    var originalText = btnTarget.innerText;
+    btnTarget.innerText = "Menyimpan... ⏳";
+    btnTarget.disabled = true;
+
+    if (fileInput.files.length > 0) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        kirimUpdateBackend(kodeTiket, statusBaru, progressBaru, e.target.result, password, btnTarget, originalText);
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    } else {
+      kirimUpdateBackend(kodeTiket, statusBaru, progressBaru, "", password, btnTarget, originalText);
+    }
+  }
+
+  function kirimUpdateBackend(kode, status, progress, fotoBase64, password, btn, origText) {
+    var payload = {
+      action: "update_admin",
+      pass: password,
+      kode: kode,
+      status: status,
+      progress: progress,
+      foto: fotoBase64
+    };
+
+    fetch(URL_APP, { method: "POST", body: JSON.stringify(payload) })
+    .then(r => r.json())
+    .then(d => {
+      btn.innerText = origText;
+      btn.disabled = false;
+      if (d.status === "success") {
+        alert("✅ Data laporan berhasil diperbarui!");
+        loadAdminData(); // Refresh tabel
+      } else {
+        alert("❌ Gagal memperbarui: " + (d.message || "Kesalahan server"));
+      }
+    })
+    .catch(e => {
+      btn.innerText = origText;
+      btn.disabled = false;
+      alert("Gagal terhubung ke jaringan.");
     });
   }
 </script>
