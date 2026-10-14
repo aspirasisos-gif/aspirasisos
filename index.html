@@ -21,7 +21,7 @@
   .card { 
     background: var(--surface); padding: 2.5rem 2rem; border-radius: var(--radius-card); 
     box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.05), 0 0 1px 1px rgba(15, 23, 42, 0.04); 
-    margin-bottom: 1.5rem; border: 1px solid var(--border); animation: fadeInUp 0.4s ease forwards;
+    margin-bottom: 1.5rem; border: 1px solid var(--border); 
   }
   .header { text-align: center; margin-bottom: 2.5rem; }
   .header h2 { font-size: 2.8rem; margin-bottom: 0.5rem; color: var(--primary); font-weight: 800; letter-spacing: -1.5px; }
@@ -40,20 +40,19 @@
   input, select, textarea { width: 100%; padding: 1rem 1.2rem; margin-top: 0.4rem; margin-bottom: 1.2rem; border: 1.5px solid var(--border); border-radius: 14px; box-sizing: border-box; font-size: 1rem; background: #fafbfc; transition: all 0.2s; color: var(--text-main); }
   input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08); }
   label { font-weight: 600; font-size: 0.88rem; color: #475569; display: block; }
-  .hidden { display: none; }
-  .status-result-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1.5rem; border-radius: 20px; margin-top: 1rem; border-left: 5px solid #22c55e; animation: fadeIn 0.3s ease; }
+  .hidden { display: none !important; }
+  .status-result-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1.5rem; border-radius: 20px; margin-top: 1rem; border-left: 5px solid #22c55e; }
   .table-container { overflow-x: auto; margin-top: 1rem; }
   table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
   th, td { padding: 1rem; border-bottom: 1px solid var(--border); }
   th { background: #f8fafc; font-weight: 700; color: var(--primary); }
   tr:hover { background: #fafbfc; }
   .rating-stars { color: #f59e0b; font-size: 1rem; letter-spacing: 2px; }
-  @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   .back-link { background: none; border: none; color: var(--accent); font-weight: 700; cursor: pointer; margin-bottom: 1.2rem; font-size: 0.95rem; display: flex; align-items: center; gap: 0.4rem; padding: 0; }
   .back-link:hover { color: var(--accent-hover); }
 </style>
 </head>
-<body onload="loadTabelSelesai()">
+<body onload="initApp()">
 
 <div class="container">
   
@@ -65,7 +64,7 @@
     </div>
     
     <div class="action-grid">
-      <button class="btn btn-main" onclick="showVerifikasi()">✍️ Aspirasi / Pengaduan</button>
+      <button type="button" class="btn btn-main" onclick="showVerifikasi()">✍️ Aspirasi / Pengaduan</button>
       <a href="https://wa.me/6281234567890?text=Halo%20Bapak/Ibu%20Guru%20BK,%20saya%20butuh%20bantuan%20darurat." class="btn btn-alert" target="_blank">🚨 Saluran Darurat</a>
     </div>
 
@@ -87,7 +86,7 @@
       
       <div style="display: flex; gap: 0.8rem;">
         <input type="text" id="cekKode" placeholder="Cth: A8X9KL" maxlength="6" style="margin:0; font-family: monospace; text-transform: uppercase; font-weight: bold; letter-spacing: 2px;">
-        <button class="btn btn-main" onclick="cekStatus()" style="width: auto; padding: 0 1.8rem; margin:0; border-radius: 14px;">Cek</button>
+        <button type="button" class="btn btn-main" onclick="cekStatus()" style="width: auto; padding: 0 1.8rem; margin:0; border-radius: 14px;">Cek</button>
       </div>
       <div id="hasilCek" class="hidden status-result-box"></div>
     </div>
@@ -117,10 +116,10 @@
 
   <!-- HALAMAN VERIFIKASI NAMA & NIM -->
   <div id="page-verifikasi" class="hidden animate__animated animate__fadeIn">
-    <button class="back-link" onclick="showHome()">⬅ Kembali ke Beranda</button>
+    <button type="button" class="back-link" onclick="showHome()">⬅ Kembali ke Beranda</button>
     <div class="card">
       <h3 style="margin-top:0; color: var(--primary); font-size: 1.5rem; font-weight: 700;">🔒 Verifikasi Identitas Siswa</h3>
-      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">Masukkan NIM dan Nama lengkap terdaftar untuk mengakses formulir pengaduan.</p>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">Masukkan NIM dan Nama lengkap untuk mengakses formulir pengaduan.</p>
       
       <label>Nomor Induk Mahasiswa (NIM)</label>
       <input type="text" id="inputNim" placeholder="Contoh: 23002093" style="font-family: monospace; font-weight: bold;">
@@ -128,13 +127,13 @@
       <label>Nama Lengkap</label>
       <input type="text" id="inputNama" placeholder="Contoh: Fahma Hakim">
 
-      <button class="btn btn-main" id="btnVerifikasi" onclick="prosesVerifikasi()" style="width:100%; margin-top:0.5rem;">Verifikasi & Lanjutkan</button>
+      <button type="button" class="btn btn-main" id="btnVerifikasi" onclick="prosesVerifikasi()" style="width:100%; margin-top:0.5rem;">Verifikasi & Lanjutkan</button>
     </div>
   </div>
 
   <!-- HALAMAN 2: FORMULIR PENGISIAN -->
   <div id="page-form" class="hidden animate__animated animate__fadeIn">
-    <button class="back-link" onclick="showHome()">⬅ Keluar / Beranda</button>
+    <button type="button" class="back-link" onclick="showHome()">⬅ Keluar / Beranda</button>
     
     <div class="card">
       <h3 style="margin-top:0; border-bottom: 1px solid var(--border); padding-bottom: 1.2rem; font-size: 1.5rem; font-weight: 700;">Formulir Aspirasi Siswa</h3>
@@ -148,7 +147,7 @@
       <select id="kategori">
         <option value="Pembelajaran">📚 Pembelajaran</option>
         <option value="Perundungan/Kekerasan">⚠️ Perundungan / Kekerasan</option>
-        <option value="Fasilitas">🏫 Fasilitas Sekolah</option>
+        <option value="Fasilitas">🏫 Fasilitas Kampus / Sekolah</option>
         <option value="Lainnya">💬 Lainnya</option>
       </select>
 
@@ -164,10 +163,10 @@
       <label>Unggah Foto Bukti (Opsional)</label>
       <input type="file" id="fotoBukti" accept="image/*">
 
-      <label>Kontak yang Bisa Dihubungi </label>
+      <label>Kontak yang Bisa Dihubungi (Opsional)</label>
       <input type="text" id="kontak" placeholder="No WhatsApp / Media Sosial">
 
-      <button class="btn btn-main" id="btnKirim" onclick="kirimForm()" style="width:100%;">Kirim Laporan Sekarang</button>
+      <button type="button" class="btn btn-main" id="btnKirim" onclick="kirimForm()" style="width:100%;">Kirim Laporan Sekarang</button>
     </div>
   </div>
 
@@ -190,14 +189,19 @@
         </p>
       </div>
 
-      <button class="btn btn-main" onclick="showHome()" style="width:100%;">Kembali ke Beranda</button>
+      <button type="button" class="btn btn-main" onclick="showHome()" style="width:100%;">Kembali ke Beranda</button>
     </div>
   </div>
 
 </div>
 
 <script>
+  // ⚠️ PASTIKAN URL_APP DIBAWAH INI SUDAH DIGANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
   var URL_APP = "https://script.google.com/macros/s/AKfycby5FtMgNQam1DHRD2kZwof060ptXVGoNT6uuF0mfAev8pa1K9FIlrpQin2juc7leaNe/exec";[cite: 2]
+
+  function initApp() {
+    loadTabelSelesai();
+  }
 
   function buatKode() { 
     var cs = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", out = "";
@@ -207,6 +211,8 @@
   
   function showVerifikasi() {
     document.getElementById('page-home').classList.add('hidden');
+    document.getElementById('page-form').classList.add('hidden');
+    document.getElementById('page-sukses').classList.add('hidden');
     document.getElementById('page-verifikasi').classList.remove('hidden');
     document.getElementById('inputNim').value = "";
     document.getElementById('inputNama').value = "";
@@ -229,12 +235,15 @@
     }
 
     var btn = document.getElementById('btnVerifikasi');
-    btn.innerText = "Memeriksa Data... ⏳"; btn.disabled = true;
+    var originalText = btn.innerText;
+    btn.innerText = "Memeriksa Data... ⏳"; 
+    btn.disabled = true;
 
     fetch(URL_APP + "?action=cek_siswa&nim=" + encodeURIComponent(nim) + "&nama=" + encodeURIComponent(nama))
     .then(r => r.json())
     .then(d => {
-      btn.innerText = "Verifikasi & Lanjutkan"; btn.disabled = false;
+      btn.innerText = originalText; 
+      btn.disabled = false;
       if(d.status === "success") {
         document.getElementById('page-verifikasi').classList.add('hidden');
         document.getElementById('page-form').classList.remove('hidden');
@@ -244,8 +253,9 @@
       }
     })
     .catch(e => {
-      btn.innerText = "Verifikasi & Lanjutkan"; btn.disabled = false;
-      alert("Gagal terhubung ke server.");
+      btn.innerText = originalText; 
+      btn.disabled = false;
+      alert("Gagal terhubung ke server. Periksa kembali URL_APP Anda.");
     });
   }
 
@@ -255,7 +265,9 @@
     if (judul === "" || isi === "") { alert("Judul dan Isi Laporan wajib diisi!"); return; }
     
     var btn = document.getElementById('btnKirim');
-    btn.innerText = "Mengirim Laporan... ⏳"; btn.disabled = true;
+    var originalText = btn.innerText;
+    btn.innerText = "Mengirim Laporan... ⏳"; 
+    btn.disabled = true;
 
     var kodeUnik = document.getElementById('kodeTiket').innerText;
     var lokasi = document.getElementById('lokasi').value.trim();
@@ -264,15 +276,15 @@
     if (fileInput.files.length > 0) {
       var reader = new FileReader();
       reader.onload = function(e) {
-        kirimDataBackend(kodeUnik, judul, isi, lokasi, e.target.result, btn);
+        kirimDataBackend(kodeUnik, judul, isi, lokasi, e.target.result, btn, originalText);
       };
       reader.readAsDataURL(fileInput.files[0]);
     } else {
-      kirimDataBackend(kodeUnik, judul, isi, lokasi, "", btn);
+      kirimDataBackend(kodeUnik, judul, isi, lokasi, "", btn, originalText);
     }
   }
 
-  function kirimDataBackend(kode, judul, isi, lokasi, fotoBase64, btn) {
+  function kirimDataBackend(kode, judul, isi, lokasi, fotoBase64, btn, originalText) {
     var payload = {
       kode: kode,
       kategori: document.getElementById('kategori').value,
@@ -289,7 +301,8 @@
       document.getElementById('page-form').classList.add('hidden');
       document.getElementById('page-sukses').classList.remove('hidden');
       document.getElementById('kodeFinal').innerText = kode;
-      btn.innerText = "Kirim Laporan Sekarang"; btn.disabled = false;
+      btn.innerText = originalText; 
+      btn.disabled = false;
       document.getElementById('judul').value = "";
       document.getElementById('isi').value = "";
       document.getElementById('lokasi').value = "";
@@ -297,7 +310,8 @@
     })
     .catch(e => {
       alert("Gagal mengirim laporan.");
-      btn.innerText = "Kirim Laporan Sekarang"; btn.disabled = false;
+      btn.innerText = originalText; 
+      btn.disabled = false;
     });
   }
 
@@ -306,7 +320,8 @@
     var hasilDiv = document.getElementById('hasilCek');
     if(!kode) { alert("Masukkan kode tiket terlebih dahulu!"); return; }
     
-    hasilDiv.innerHTML = "<i>⏳ Memeriksa database...</i>"; hasilDiv.classList.remove('hidden');
+    hasilDiv.innerHTML = "<i>⏳ Memeriksa database...</i>"; 
+    hasilDiv.classList.remove('hidden');
 
     fetch(URL_APP + "?action=cek&kode=" + kode)
     .then(r => r.json())
@@ -334,7 +349,7 @@
                   <option value="1">⭐ (Sangat Kurang)</option>
                 </select>
                 <textarea id="inputKomentar" rows="2" placeholder="Tuliskan pengalaman atau ulasan perbaikan..." style="margin-bottom: 0.5rem;"></textarea>
-                <button class="btn btn-main" onclick="kirimUlasan('${kode}')" style="padding: 0.6rem 1rem; font-size: 0.85rem; width: 100%;">Kirim Ulasan & Rating</button>
+                <button type="button" class="btn btn-main" onclick="kirimUlasan('${kode}')" style="padding: 0.6rem 1rem; font-size: 0.85rem; width: 100%;">Kirim Ulasan & Rating</button>
               </div>
             `;
           }
