@@ -92,7 +92,7 @@
 
     <!-- Tabel Transparansi Aspirasi Selesai -->
     <div class="card">
-      <h3 style="margin-top:0; color: var(--success); font-size: 1.3rem; font-weight: 700; margin-bottom: 0.4rem;">✅ Transparansi Aspirasi Selesai</h3>
+      <h3 style="margin-top:0; color: var(--success); font-size: 1.3rem; font-weight: 700; margin-bottom: 0.4rem;">✅ Daftar Aspirasi</h3>
       <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">Daftar laporan yang telah berhasil diselesaikan beserta ulasan kepuasan pelapor.</p>
       
       <div class="table-container">
@@ -146,7 +146,7 @@
       <select id="kategori">
         <option value="Pembelajaran">📚 Pembelajaran</option>
         <option value="Perundungan/Kekerasan">⚠️ Perundungan / Kekerasan</option>
-        <option value="Fasilitas">🏫 Fasilitas Kampus / Sekolah</option>
+        <option value="Fasilitas">🏫 Fasilitas Sekolah</option>
         <option value="Lainnya">💬 Lainnya</option>
       </select>
 
@@ -156,13 +156,13 @@
       <label>Isi Laporan / Penjelasan Detail</label>
       <textarea id="isi" rows="4" placeholder="Ceritakan kronologi kejadian secara objektif..."></textarea>
 
-      <label>Lokasi Kejadian / Ruangan</label>
+      <label>Lokasi Kejadian</label>
       <input type="text" id="lokasi" placeholder="Contoh: Kantin Sekolah / Lab Komputer 2">
 
-      <label>Unggah Foto Bukti (Opsional)</label>
+      <label>Unggah Foto Bukti </label>
       <input type="file" id="fotoBukti" accept="image/*">
 
-      <label>Kontak yang Bisa Dihubungi (Opsional)</label>
+      <label>Kontak yang Bisa Dihubungi</label>
       <input type="text" id="kontak" placeholder="No WhatsApp / Media Sosial">
 
       <button type="button" class="btn btn-main" id="btnKirim" onclick="kirimForm()" style="width:100%;">Kirim Laporan Sekarang</button>
