@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Admin Dashboard</title>
+<title>Admin Dashboard Aspirasisos</title>
 <style>
   :root {
     --bg-app: #f1f5f9; --surface: #ffffff; --primary: #4f46e5; --primary-hover: #4338ca;
@@ -14,14 +14,12 @@
   .header-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-bottom: 2px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
   h2 { margin: 0; color: var(--primary); font-size: 1.5rem; }
   
-  /* Tabel Responsif dalam 1 Layar */
   .table-container { width: 100%; overflow-x: auto; max-height: 70vh; border: 1px solid var(--border); border-radius: 12px; }
   table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; white-space: nowrap; }
   th, td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
   th { background: #f8fafc; color: #475569; font-weight: 700; position: sticky; top: 0; z-index: 10; }
   tr:hover { background: #f8fafc; }
 
-  /* Input & Elemen Interaktif */
   input, select, textarea { width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box; }
   input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
   
@@ -31,14 +29,8 @@
   .btn-success { background: #10b981; }
   .btn-success:hover { background: #059669; }
   
-  .badge { padding: 0.3rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
-  .badge.diterima { background: #fee2e2; color: #dc2626; }
-  .badge.diproses { background: #fef08a; color: #854d0e; }
-  .badge.selesai { background: #dcfce7; color: #166534; }
-  
   .thumb-img { width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); background: #eee; }
   
-  /* Modal Login */
   #loginArea { max-width: 400px; margin: 4rem auto; text-align: center; padding: 2rem; background: white; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
 </style>
 </head>
@@ -46,15 +38,13 @@
 
 <div class="container">
   
-  <!-- KOTAK LOGIN (Bisa Tekan Enter) -->
   <div id="loginArea">
     <h2>🛡️ Admin Login</h2>
-    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Masukkan password untuk mengelola aspirasi.</p>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Masukkan password untuk mengelola aspirasi siswa secara interaktif.</p>
     <input type="password" id="passInput" placeholder="Password: admin123" onkeypress="checkEnter(event)" style="text-align: center; margin-bottom: 1rem;">
     <button type="button" class="btn btn-primary" onclick="loadAdminData()" style="width: 100%; justify-content: center;">Masuk ke Dashboard</button>
   </div>
 
-  <!-- AREA DASHBOARD UTAMA (Tersembunyi sebelum login) -->
   <div id="dataArea" style="display: none;">
     <div class="header-flex">
       <div>
@@ -87,10 +77,8 @@
 </div>
 
 <script>
-  // ⚠️ PASTIKAN URL_APP SESUAI DENGAN WEB APP ANDA
   var URL_APP = "https://script.google.com/macros/s/AKfycby93L61MkQUNt80C1LPxJo186rGllbykPuM0cmqGqTxjyp_fbx3s7lMvpDL4lQLzoh5/exec";
 
-  // Fitur Login dengan Tombol Enter
   function checkEnter(e) {
     if (e.key === "Enter") {
       loadAdminData();
@@ -126,11 +114,6 @@
 
     var html = "";
     dataList.forEach((item, index) => {
-      var badgeClass = "diterima";
-      var st = String(item.status || "").toLowerCase();
-      if(st.includes("proses")) badgeClass = "diproses";
-      if(st.includes("selesai")) badgeClass = "selesai";
-
       var fotoPreview = item.foto && item.foto !== "-" ? `<a href="${item.foto}" target="_blank"><img src="${item.foto}" class="thumb-img" title="Klik untuk memperbesar"></a>` : `<span style="font-size:0.8rem; color:#94a3b8;">Tanpa Foto</span>`;
 
       html += `
@@ -167,8 +150,8 @@
   }
 
   function simpanPerubahan(kodeTiket, index, password) {
-    var status Baru = document.getElementById(`status_${index}`).value;
-    var progressBaru = document.getElementById(`progress_${index}`).value.trim();
+    var statusVal = document.getElementById(`status_${index}`).value;
+    var progressVal = document.getElementById(`progress_${index}`).value.trim();
     var fileInput = document.getElementById(`file_${index}`);
 
     var btnTarget = event.target;
@@ -179,11 +162,11 @@
     if (fileInput.files.length > 0) {
       var reader = new FileReader();
       reader.onload = function(e) {
-        kirimUpdateBackend(kodeTiket, statusBaru, progressBaru, e.target.result, password, btnTarget, originalText);
+        kirimUpdateBackend(kodeTiket, statusVal, progressVal, e.target.result, password, btnTarget, originalText);
       };
       reader.readAsDataURL(fileInput.files[0]);
     } else {
-      kirimUpdateBackend(kodeTiket, statusBaru, progressBaru, "", password, btnTarget, originalText);
+      kirimUpdateBackend(kodeTiket, statusVal, progressVal, "", password, btnTarget, originalText);
     }
   }
 
@@ -204,7 +187,7 @@
       btn.disabled = false;
       if (d.status === "success") {
         alert("✅ Data laporan berhasil diperbarui!");
-        loadAdminData(); // Refresh tabel
+        loadAdminData();
       } else {
         alert("❌ Gagal memperbarui: " + (d.message || "Kesalahan server"));
       }
