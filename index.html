@@ -154,7 +154,10 @@
       <input type="text" id="judul" placeholder="Ringkasan singkat permasalahan">
 
       <label>Isi Laporan / Penjelasan Detail</label>
-      <textarea id="isi" rows="4" placeholder="Ceritakan kronologi kejadian secara objektif..."></textarea>
+      <textarea id="isi" rows="5" placeholder="Ceritakan fakta secara objektif..."></textarea>
+
+      <label>Tanggal Kejadian</label>
+      <input type="date" id="tanggal">
 
       <label>Lokasi Kejadian</label>
       <input type="text" id="lokasi" placeholder="Contoh: Kantin Sekolah / Lab Komputer 2">
@@ -163,7 +166,7 @@
       <input type="file" id="fotoBukti" accept="image/*">
 
       <label>Kontak yang Bisa Dihubungi</label>
-      <input type="text" id="kontak" placeholder="No WhatsApp / Media Sosial">
+      <input type="text" id="kontak" placeholder="No WhatsApp">
 
       <button type="button" class="btn btn-main" id="btnKirim" onclick="kirimForm()" style="width:100%;">Kirim Laporan Sekarang</button>
     </div>
