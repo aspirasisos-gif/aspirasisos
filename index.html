@@ -195,7 +195,7 @@
 </div>
 
 <script>
-  var URL_APP = "https://script.google.com/macros/s/AKfycbyp1oQyPKMX6sbae45cli8OE5xJgplh1uFJ9cldoPOLEC8lRqJL6-VZsVbg1rPWPbnG/exec";[cite: 2]
+  var URL_APP = "https://script.google.com/macros/s/AKfycbyp1oQyPKMX6sbae45cli8OE5xJgplh1uFJ9cldoPOLEC8lRqJL6-VZsVbg1rPWPbnG/exec";
 
   function initApp() {
     loadTabelSelesai();
@@ -334,7 +334,6 @@
       if(d.status === "success") {
         var ulasanSection = "";
         if(d.data.status.toLowerCase() === "selesai") {
-          // Jika rating & ulasan sudah pernah diisi oleh pelapor, tampilkan ulasan tersebut
           if (d.data.rating && d.data.rating !== "") {
             ulasanSection = `
               <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #bbf7d0;">
@@ -344,7 +343,6 @@
               </div>
             `;
           } else {
-            // Jika status selesai tapi pelapor belum mengisi ulasan, tampilkan form input ulasan
             ulasanSection = `
               <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #bbf7d0;">
                 <p style="font-size: 0.88rem; font-weight: 600; color: #166534; margin-bottom: 0.4rem;">⭐ Berikan Kepuasan Layanan Anda:</p>
