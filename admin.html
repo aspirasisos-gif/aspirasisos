@@ -27,7 +27,7 @@
   
   <div id="loginArea" style="text-align: center; padding: 3rem 0;">
     <p>Masukkan Kata Sandi Administrator:</p>
-    <input type="password" id="pass" placeholder="Password: admin123" style="text-align: center; margin-bottom: 1.5rem;"><br>
+    <input type="password" id="pass" placeholder="Password: admin123" style="text-align: center; margin-bottom: 1rem;"><br>
     <button onclick="loadData()">Masuk ke Dashboard</button>
   </div>
   
@@ -54,7 +54,8 @@
 </div>
 
 <script>
-  var URL_APP = "https://script.google.com/macros/s/AKfycbxkmPrNc25Py28UOt9AFF_oZaCm_0CPtaoIjmXWv7C9N4pUNAQ68C04o3YkunE3Boen/exec"; 
+  // Ganti dengan URL Deploy Apps Script Google Sheets Anda
+  var URL_APP = "https://script.google.com/macros/s/AKfycby5FtMgNQam1DHRD2kZwof060ptXVGoNT6uuF0mfAev8pa1K9FIlrpQin2juc7leaNe/exec";[cite: 2]
 
   function loadData() {
     var pass = document.getElementById('pass').value;
@@ -73,8 +74,9 @@
         } else {
           d.data.forEach(item => {
             var badgeClass = "diterima";
-            if (item.status.toLowerCase().includes("proses")) badgeClass = "diproses";
-            if (item.status.toLowerCase().includes("selesai")) badgeClass = "selesai";
+            var statusStr = String(item.status || "").toLowerCase();
+            if (statusStr.includes("proses")) badgeClass = "diproses";
+            if (statusStr.includes("selesai")) badgeClass = "selesai";
 
             html += `<tr>
               <td><b style="font-family:monospace; color:#4f46e5;">${item.kode}</b></td>
