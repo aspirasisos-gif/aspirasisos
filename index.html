@@ -195,7 +195,7 @@
 </div>
 
 <script>
-  var URL_APP = "https://script.google.com/macros/s/AKfycbx5v9CLlm-xKTXqUfaKAzElTb8gqoch6ZBVRclKJdV1RqGRDpPkE-wIw75rW2cFxK0A/exec";
+  var URL_APP = "https://script.google.com/macros/s/AKfycbyp1oQyPKMX6sbae45cli8OE5xJgplh1uFJ9cldoPOLEC8lRqJL6-VZsVbg1rPWPbnG/exec";[cite: 2]
 
   function initApp() {
     loadTabelSelesai();
@@ -334,15 +334,17 @@
       if(d.status === "success") {
         var ulasanSection = "";
         if(d.data.status.toLowerCase() === "selesai") {
-          if (d.data.rating) {
+          // Jika rating & ulasan sudah pernah diisi oleh pelapor, tampilkan ulasan tersebut
+          if (d.data.rating && d.data.rating !== "") {
             ulasanSection = `
               <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #bbf7d0;">
-                <p style="font-size: 0.88rem; font-weight: 600; color: #166534; margin-bottom: 0.2rem;">⭐ Ulasan Anda:</p>
+                <p style="font-size: 0.88rem; font-weight: 600; color: #166534; margin-bottom: 0.2rem;">⭐ Ulasan yang Telah Anda Kirim:</p>
                 <div class="rating-stars">${'★'.repeat(d.data.rating)}</div>
                 <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.2rem 0 0 0;">"${d.data.ulasan}"</p>
               </div>
             `;
           } else {
+            // Jika status selesai tapi pelapor belum mengisi ulasan, tampilkan form input ulasan
             ulasanSection = `
               <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #bbf7d0;">
                 <p style="font-size: 0.88rem; font-weight: 600; color: #166534; margin-bottom: 0.4rem;">⭐ Berikan Kepuasan Layanan Anda:</p>
@@ -414,7 +416,7 @@
       if (d.status === "success") {
         var tbody = document.getElementById('tabelSelesaiBody');
         if (d.data.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: var(--text-muted);">Belum ada aspirasi yang selesai.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: var(--text-muted);">Belum ada aspirasi yang selesai diulas.</td></tr>`;
           return;
         }
         var html = "";
