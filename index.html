@@ -195,7 +195,7 @@
 </div>
 
 <script>
-  var URL_APP = "https://script.google.com/macros/s/AKfycbx5v9CLlm-xKTXqUfaKAzElTb8gqoch6ZBVRclKJdV1RqGRDpPkE-wIw75rW2cFxK0A/exec";[cite: 2]
+  var URL_APP = "https://script.google.com/macros/s/AKfycbx5v9CLlm-xKTXqUfaKAzElTb8gqoch6ZBVRclKJdV1RqGRDpPkE-wIw75rW2cFxK0A/exec";
 
   function initApp() {
     loadTabelSelesai();
@@ -229,7 +229,8 @@
     var nama = document.getElementById('inputNama').value.trim();
     
     if(!nim || !nama) {
-      alert("NIM dan Nama wajib diisi!"); return;
+      alert("NIM dan Nama wajib diisi!"); 
+      return;
     }
 
     var btn = document.getElementById('btnVerifikasi');
@@ -260,7 +261,10 @@
   function kirimForm() {
     var judul = document.getElementById('judul').value.trim();
     var isi = document.getElementById('isi').value.trim();
-    if (judul === "" || isi === "") { alert("Judul dan Isi Laporan wajib diisi!"); return; }
+    if (judul === "" || isi === "") { 
+      alert("Judul dan Isi Laporan wajib diisi!"); 
+      return; 
+    }
     
     var btn = document.getElementById('btnKirim');
     var originalText = btn.innerText;
@@ -316,7 +320,10 @@
   function cekStatus() {
     var kode = document.getElementById('cekKode').value.trim().toUpperCase();
     var hasilDiv = document.getElementById('hasilCek');
-    if(!kode) { alert("Masukkan kode tiket terlebih dahulu!"); return; }
+    if(!kode) { 
+      alert("Masukkan kode tiket terlebih dahulu!"); 
+      return; 
+    }
     
     hasilDiv.innerHTML = "<i>⏳ Memeriksa database...</i>"; 
     hasilDiv.classList.remove('hidden');
