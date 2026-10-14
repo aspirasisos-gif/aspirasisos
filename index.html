@@ -14,10 +14,9 @@
   }
   body { 
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-    background-color: var(--bg-app); color: var(--text-main); margin: 0; padding: 3rem 1rem; min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
+    background-color: var(--bg-app); color: var(--text-main); margin: 0; padding: 2rem 1rem; min-height: 100vh;
   }
-  .container { max-width: 720px; width: 100%; margin: 0 auto; }
+  .container { max-width: 720px; width: 100%; margin: 0 auto; position: relative; z-index: 10; }
   .card { 
     background: var(--surface); padding: 2.5rem 2rem; border-radius: var(--radius-card); 
     box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.05), 0 0 1px 1px rgba(15, 23, 42, 0.04); 
@@ -26,8 +25,8 @@
   .header { text-align: center; margin-bottom: 2.5rem; }
   .header h2 { font-size: 2.8rem; margin-bottom: 0.5rem; color: var(--primary); font-weight: 800; letter-spacing: -1.5px; }
   .slogan { color: var(--text-muted); font-style: italic; font-size: 1.1rem; }
-  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 1.15rem 1.5rem; border-radius: var(--radius-btn); font-weight: 600; font-size: 0.98rem; border: none; cursor: pointer; text-align: center; color: white; text-decoration: none; transition: all 0.25s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+  .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; position: relative; z-index: 20; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 1.15rem 1.5rem; border-radius: var(--radius-btn); font-weight: 600; font-size: 0.98rem; border: none; cursor: pointer; text-align: center; color: white; text-decoration: none; transition: all 0.25s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.04); position: relative; z-index: 30; }
   .btn-main { background: var(--accent); }
   .btn-main:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,99,235,0.2); }
   .btn-alert { background: var(--danger); }
@@ -48,7 +47,7 @@
   th { background: #f8fafc; font-weight: 700; color: var(--primary); }
   tr:hover { background: #fafbfc; }
   .rating-stars { color: #f59e0b; font-size: 1rem; letter-spacing: 2px; }
-  .back-link { background: none; border: none; color: var(--accent); font-weight: 700; cursor: pointer; margin-bottom: 1.2rem; font-size: 0.95rem; display: flex; align-items: center; gap: 0.4rem; padding: 0; }
+  .back-link { background: none; border: none; color: var(--accent); font-weight: 700; cursor: pointer; margin-bottom: 1.2rem; font-size: 0.95rem; display: flex; align-items: center; gap: 0.4rem; padding: 0; position: relative; z-index: 30; }
   .back-link:hover { color: var(--accent-hover); }
 </style>
 </head>
@@ -57,7 +56,7 @@
 <div class="container">
   
   <!-- HALAMAN 1: LANDING PAGE -->
-  <div id="page-home" class="animate__animated animate__fadeIn">
+  <div id="page-home">
     <div class="header">
       <h2>Aspirasisos</h2>
       <p class="slogan">"Karena suara siswa adalah milik bersama dan layak didengar."</p>
@@ -115,7 +114,7 @@
   </div>
 
   <!-- HALAMAN VERIFIKASI NAMA & NIM -->
-  <div id="page-verifikasi" class="hidden animate__animated animate__fadeIn">
+  <div id="page-verifikasi" class="hidden">
     <button type="button" class="back-link" onclick="showHome()">⬅ Kembali ke Beranda</button>
     <div class="card">
       <h3 style="margin-top:0; color: var(--primary); font-size: 1.5rem; font-weight: 700;">🔒 Verifikasi Identitas Siswa</h3>
@@ -132,7 +131,7 @@
   </div>
 
   <!-- HALAMAN 2: FORMULIR PENGISIAN -->
-  <div id="page-form" class="hidden animate__animated animate__fadeIn">
+  <div id="page-form" class="hidden">
     <button type="button" class="back-link" onclick="showHome()">⬅ Keluar / Beranda</button>
     
     <div class="card">
@@ -171,7 +170,7 @@
   </div>
 
   <!-- HALAMAN 3: LAYAR SUKSES -->
-  <div id="page-sukses" class="hidden animate__animated animate__fadeIn">
+  <div id="page-sukses" class="hidden">
     <div class="card" style="text-align: center;">
       <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎉</div>
       <h2 style="color: #166534; margin-bottom: 0.5rem; font-size: 1.8rem; font-weight: 800;">Laporan Berhasil Terkirim!</h2>
@@ -196,7 +195,6 @@
 </div>
 
 <script>
-  // ⚠️ PASTIKAN URL_APP DIBAWAH INI SUDAH DIGANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
   var URL_APP = "https://script.google.com/macros/s/AKfycby5FtMgNQam1DHRD2kZwof060ptXVGoNT6uuF0mfAev8pa1K9FIlrpQin2juc7leaNe/exec";[cite: 2]
 
   function initApp() {
@@ -255,7 +253,7 @@
     .catch(e => {
       btn.innerText = originalText; 
       btn.disabled = false;
-      alert("Gagal terhubung ke server. Periksa kembali URL_APP Anda.");
+      alert("Gagal terhubung ke server.");
     });
   }
 
@@ -418,7 +416,7 @@
           var bintang = '★'.repeat(Number(item.rating) || 5);
           html += `
             <tr>
-              <td><strong>${item.kategori}</strong><br><span style="font-size:0.82rem; color:var(--text-muted);">${item.judul}</span></td>
+              <td><strong>${item.kategori}</strong><br><span style="font-size:0.82rem; color: var(--text-muted);">${item.judul}</span></td>
               <td>${item.lokasi}</td>
               <td>${fotoLink}</td>
               <td>
